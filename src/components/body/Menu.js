@@ -1,14 +1,41 @@
 import React, { Component } from 'react';
 import DISHES from '../../data/dishes';
+import COMMENTS from '../../data/comments';
 import MenuItem from './MenuItem';
 import DishDetail from './DishDetail';
 import { CardColumns, Modal, ModalBody, ModalFooter, Button } from 'reactstrap';
+import { connect } from 'react-redux';
+import * as  actionType from '../../redux/actionType';
+
+
+const mapStateToProps = state =>{
+    return{
+        dishes: state.dishes,
+        comments: state.comments
+    }
+
+}
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        addComment: (dishId, rating, author, comment) =>  dispatch({
+            type: actionType.ADD_COMMENT,
+            payload : {
+                dishId: dishId,
+                author: author,
+                rating: rating,
+                comment: comment
+            }
+        })
+    }
+}
+
 
 class Menu extends Component {
 
 
     state = {
-        dishes: DISHES,
+
         selectedDish: null,
         modalOpen: false
     }
@@ -34,7 +61,8 @@ class Menu extends Component {
 
 
     render() {
-        const menu = this.state.dishes.map(item => {
+        document.title = 'Menu';
+        const menu = this.props.dishes.map(item => {
             return (
                 <MenuItem dish={item} key={item.id} onDishSelect={() => this.onDishSelect(item)} />
             );
@@ -44,7 +72,13 @@ class Menu extends Component {
 
         let dishDetail = null;
         if (this.state.selectedDish != null) {
-            dishDetail = <DishDetail dish={this.state.selectedDish} />
+            const comments = this.props.comments.filter(comment=>{
+                return comment.dishId === this.state.selectedDish.id;
+            })
+            // console.log(comments);
+            dishDetail = <DishDetail dish={this.state.selectedDish}
+             comments={comments} 
+             addComment={this.props.addComment}/>
         }
 
 
@@ -56,8 +90,11 @@ class Menu extends Component {
                     <CardColumns>
                         {menu}
                     </CardColumns>
-                    <Modal isOpen={this.state.modalOpen} onClick={this.toggleModal}>
+                    <Modal isOpen={this.state.modalOpen} >
                         <ModalBody>
+                        <Button color='secondary' onClick={this.toggleModal}>
+                                Close
+                            </Button>
                             {dishDetail}
                         </ModalBody>
                         <ModalFooter>
@@ -73,4 +110,4 @@ class Menu extends Component {
     }
 }
 
-export default Menu;
+export default connect(mapStateToProps,mapDispatchToProps)(Menu);
