@@ -1,29 +1,12 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import Loading from './Loading';
 
-const mapStateToProps = state => {
-    console.log(state);
-    return {
-        sample: state.sample
-    }
-}
+
 
 
 class Home extends Component {
 
 
-    componentDidMount() {
-        console.log("Home props", this.props);
-
-        this.props.dispatch({
-            type: "TEST",
-            str: "Bohubrihi"
-        })
-    }
-
-    componentDidUpdate() {
-        console.log("Home props Updated : ", this.props.sample);
-    }
 
 
 
@@ -36,9 +19,10 @@ class Home extends Component {
         return (
             <div>
                 <h1>test</h1>
+                <Loading />
             </div>
         );
     }
 }
 
-export default connect(mapStateToProps)(Home);
+export default Home;
