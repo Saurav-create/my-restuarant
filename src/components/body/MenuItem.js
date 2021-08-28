@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardBody, CardTitle } from 'reactstrap';
-
+import { baseUrl } from '../../redux/baseUrl';
 
 
 const MenuItem = props => {
@@ -12,7 +12,7 @@ const MenuItem = props => {
                     <CardImg
                         width='100%'
                         alt={props.dish.name}
-                        src={props.dish.image}
+                        src={baseUrl+props.dish.image}
                         style={{ opacity: '0.5' }} />
                     <CardImgOverlay>
                         <CardTitle style={{ cursor: 'pointer' }} onClick={props.onDishSelect} >{props.dish.name}</CardTitle>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardBody, CardTitle, CardText } from 'reactstrap';
 import CommentForm from './CommentForm';
 import LoadComments from './LoadComments';
+import { baseUrl } from '../../redux/baseUrl';
 
 
 const DishDetail = props => {
@@ -10,7 +11,7 @@ const DishDetail = props => {
     return (
         <div>
             <Card style={{ marginTop: '10px' }}>
-                <CardImg top src={props.dish.image} alt={props.dish.name}></CardImg>
+                <CardImg top src={baseUrl + props.dish.image} alt={props.dish.name}></CardImg>
                 <CardBody style={{ textAlign: 'left' }}>
                     <CardTitle>{props.dish.name}</CardTitle>
                     <CardText>
@@ -20,7 +21,8 @@ const DishDetail = props => {
                         {props.dish.price} /-
                     </CardText>
                     <hr />
-                    <LoadComments comments={props.comments} ></LoadComments>
+                    <LoadComments comments={props.comments}
+                     commentsIsLoading={props.commentsIsLoading}></LoadComments>
                     <hr />
 
 
